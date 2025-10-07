@@ -4,12 +4,12 @@ import Foundation
 
 public enum ConfVariables {
 	
-	static func resolveVariables(in string: String?, localVars: [String: Data], allowEnvVars: Bool = true, allowFileVars: Bool = true, allowEmbeddedVars: Bool = true) throws -> String? {
+	public static func resolveVariables(in string: String?, localVars: [String: Data], allowEnvVars: Bool = true, allowFileVars: Bool = true, allowEmbeddedVars: Bool = true) throws -> String? {
 		guard let string else {return nil}
 		return try resolveVariables(in: string, localVars: localVars, allowEnvVars: allowEnvVars, allowFileVars: allowFileVars, allowEmbeddedVars: allowEmbeddedVars) as String
 	}
 	
-	static func resolveVariables(in string: String, localVars: [String: Data], allowEnvVars: Bool = true, allowFileVars: Bool = true, allowEmbeddedVars: Bool = true) throws -> String {
+	public static func resolveVariables(in string: String, localVars: [String: Data], allowEnvVars: Bool = true, allowFileVars: Bool = true, allowEmbeddedVars: Bool = true) throws -> String {
 		let data = try resolveVariables(in: string, localVars: localVars, allowEnvVars: allowEnvVars, allowFileVars: allowFileVars, allowEmbeddedVars: allowEmbeddedVars) as Data
 		guard let ret = String(data: data, encoding: .utf8) else {
 			throw Err.resolvedDataIsNotValidUTF8(data)
@@ -17,12 +17,12 @@ public enum ConfVariables {
 		return ret
 	}
 	
-	static func resolveVariables(in string: String?, localVars: [String: Data], allowEnvVars: Bool = true, allowFileVars: Bool = true, allowEmbeddedVars: Bool = true) throws -> Data? {
+	public static func resolveVariables(in string: String?, localVars: [String: Data], allowEnvVars: Bool = true, allowFileVars: Bool = true, allowEmbeddedVars: Bool = true) throws -> Data? {
 		guard let string else {return nil}
 		return try resolveVariables(in: string, localVars: localVars, allowEnvVars: allowEnvVars, allowFileVars: allowFileVars, allowEmbeddedVars: allowEmbeddedVars) as Data
 	}
 	
-	static func resolveVariables(in string: String, localVars: [String: Data], allowEnvVars: Bool = true, allowFileVars: Bool = true, allowEmbeddedVars: Bool = true) throws -> Data {
+	public static func resolveVariables(in string: String, localVars: [String: Data], allowEnvVars: Bool = true, allowFileVars: Bool = true, allowEmbeddedVars: Bool = true) throws -> Data {
 		let sourceData = Data(string.utf8)
 		var iterator = sourceData.makeIterator()
 		return try resolveVariables(in: &iterator, localVars: localVars, allowEnvVars: allowEnvVars, allowFileVars: allowFileVars, allowEmbeddedVars: allowEmbeddedVars, parsingEmbedded: false)
@@ -37,7 +37,7 @@ public enum ConfVariables {
 	 *   - "env":   we try to retrieve the value from environment if environment variables are enabled, otherwise we fail;
 	 *   - "file":  we try to retrieve the value from a file if file variables are enabled, otherwise we fail;
 	 *   - other value: we fail. */
-	static func resolveVariables(in dataIterator: inout Data.Iterator, localVars: [String: Data], allowEnvVars: Bool = true, allowFileVars: Bool = true, allowEmbeddedVars: Bool = true, parsingEmbedded: Bool) throws -> Data {
+	public static func resolveVariables(in dataIterator: inout Data.Iterator, localVars: [String: Data], allowEnvVars: Bool = true, allowFileVars: Bool = true, allowEmbeddedVars: Bool = true, parsingEmbedded: Bool) throws -> Data {
 		enum State : Equatable {
 			case waitingVarStart(escaped: Bool)
 			case confirmingVarEntry
