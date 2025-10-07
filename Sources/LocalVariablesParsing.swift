@@ -94,7 +94,7 @@ public struct LocalVariablesParsing : Decodable, Sendable {
 }
 
 
-extension KeyedDecodingContainer {
+public extension KeyedDecodingContainer {
 	
 	func decode(_ type: LocalVariablesParsing.Type, forKey key: Key) throws -> LocalVariablesParsing {
 		return try decodeIfPresent(LocalVariablesParsing.self, forKey: key) ?? LocalVariablesParsing()
