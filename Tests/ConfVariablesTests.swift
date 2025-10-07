@@ -14,6 +14,7 @@ struct ConfVariablesTests {
 		#expect(try ConfVariables.resolveVariables(in: #"\$"#, localVars: [:]) == Data("$".utf8))
 		#expect(try ConfVariables.resolveVariables(in: #"yolo"#, localVars: [:]) == Data("yolo".utf8))
 		#expect(try ConfVariables.resolveVariables(in: #"\${yolo}"#, localVars: ["yolo": Data("hey!".utf8)]) == Data("${yolo}".utf8))
+		#expect(try ConfVariables.resolveVariables(in: #"\$\{yolo}"#, localVars: ["yolo": Data("hey!".utf8)]) == Data(#"${yolo}"#.utf8))
 		#expect(try ConfVariables.resolveVariables(in: #"yolo${yolo}yolo"#, localVars: ["yolo": Data("hey!".utf8)]) == Data("yolohey!yolo".utf8))
 		#expect(try ConfVariables.resolveVariables(in: #"yolo${env:YOLO}\$"#, localVars: ["YOLO": Data("hey!".utf8)]) == Data("yoloyolenv$".utf8))
 		#expect(try ConfVariables.resolveVariables(in: #"yolo${env:YOLO}\$${YOLO}"#, localVars: ["YOLO": Data("hey!".utf8)]) == Data("yoloyolenv$hey!".utf8))
